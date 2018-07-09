@@ -35,26 +35,23 @@ class BoxArray {
     }
     _merge(startIndex,middleIndex,endIndex) {
         let results=[];
-        for (var i=0 , ii=0 , firstHalfLength=middleIndex-startIndex, secondHalfLength=endIndex-middleIndex;  i<firstHalfLength || ii<secondHalfLength ;  ) {
-            while ( i===firstHalfLength && ii<secondHalfLength) {
-                results.push( this.boxArray[middleIndex+ii]);
+        for (var i=0 , ii=0 , firstHalfLength=middleIndex-startIndex, secondHalfLength=endIndex-middleIndex;  i<firstHalfLength && ii<secondHalfLength ;  ) {
+            if (this.boxArray[startIndex+i].isBiggerThen(this.boxArray[middleIndex+ii])) {
+                results.push(this.boxArray[middleIndex+ii])
                 ii++;
+            } else {
+                results.push(this.boxArray[startIndex+i]);
+                i++;
             }
-            while (ii === secondHalfLength && i<firstHalfLength) {
-                results.push(  this.boxArray[startIndex+i]);
-                i++
-            }
-            if (i<firstHalfLength && ii<secondHalfLength) {
-                if (this.boxArray[startIndex+i].isBiggerThen(this.boxArray[middleIndex+ii])) {
-                    results.push(this.boxArray[middleIndex+ii])
-                    ii++;
-                } else {
-                    results.push(this.boxArray[startIndex+i]);
-                    i++;
 
-
-                }
-            } 
+        }
+        while ( i===firstHalfLength && ii<secondHalfLength) {
+            results.push( this.boxArray[middleIndex+ii]);
+            ii++;
+        }
+        while (ii === secondHalfLength && i<firstHalfLength) {
+            results.push(  this.boxArray[startIndex+i]);
+            i++
         }
         for (i=0 ; i<endIndex-startIndex ; i++) {
             this.boxArray[startIndex+i] = results[i];
